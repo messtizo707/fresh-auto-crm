@@ -166,11 +166,11 @@ function loadS(){
 }
 function save(){
   const toSave={users:S.users,deals:S.deals,months:S.months};
-  set(ref(db,'crm'),toSave).catch(e=>console.error('Firebase save error:',e));
+  db.ref('crm').set(toSave).catch(e=>console.error('Firebase save error:',e));
 }
 async function loadFromFirebase(){
   try{
-    const snap=await get(ref(db,'crm'));
+    const snap=await db.ref('crm').get();
     if(snap.exists()){
       const data=snap.val();
       if(data.months) S.months=data.months.map(m=>{
@@ -185,7 +185,7 @@ async function loadFromFirebase(){
 }
 // Слушаем изменения в реальном времени
 function startRealtimeSync(){
-  onValue(ref(db,'crm'),(snap)=>{
+  db.ref('crm').on('value',(snap)=>{
     if(!snap.exists())return;
     const data=snap.val();
     const currentUser=S.user;
