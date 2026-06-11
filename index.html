@@ -122,10 +122,11 @@ input[type=checkbox]{width:auto;cursor:pointer;accent-color:var(--ac)}
 </head>
 <body>
 <div id="root"></div>
-<script type="module">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
 // ─── FIREBASE SETUP ────────────────────────────────────
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAUq5GEfkQEyPcpjCnNilJEBkwIqGIVYJM",
@@ -138,8 +139,8 @@ const firebaseConfig = {
   measurementId: "G-51G4G9YXSP"
 };
 
-const fbApp = initializeApp(firebaseConfig);
-const db = getDatabase(fbApp);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 const SK='fa_crm_v9';
 
 const KPI_SCHEMA_DEFAULT={
