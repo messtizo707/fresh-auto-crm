@@ -170,7 +170,7 @@ function save(){
 }
 async function loadFromFirebase(){
   try{
-    const snap=await db.ref('crm').get();
+    const snap = await db.ref('crm').once('value');
     if(snap.exists()){
       const data=snap.val();
       if(data.months) S.months=data.months.map(m=>{
