@@ -1,0 +1,1248 @@
+cat > /home/claude/fresh_auto_crm_v2.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresh Auto CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1117;--s1:#141b24;--s2:#1a2535;--s3:#1e2d3d;--bd:#243040;--bd2:#2d3f55;--tx:#e8f0fe;--mu:#5a7a9a;--mu2:#3d5570;--ac:#2d8cf0;--ac2:rgba(45,140,240,0.12);--gr:#22d3a0;--gr2:rgba(34,211,160,0.1);--or:#f97316;--or2:rgba(249,115,22,0.1);--ye:#fbbf24;--ye2:rgba(251,191,36,0.1);--re:#f43f5e;--re2:rgba(244,63,94,0.1);--pu:#a78bfa;--pu2:rgba(167,139,250,0.1);--pi:#f472b6;--r:10px;--rs:6px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;font-family:'Onest',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5}
+.shell{display:flex;min-height:100vh}
+.sb{width:220px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--bd);display:flex;flex-direction:column}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--bd)}
+.sb-logo .lg{font-family:'Bebas Neue';font-size:22px;letter-spacing:.08em;color:var(--ac)}
+.sb-logo .slg{font-size:10px;color:var(--mu);letter-spacing:.1em;margin-top:1px}
+.nav{padding:6px 0}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;font-size:13px;color:var(--mu);border-left:3px solid transparent;transition:all .15s;user-select:none}
+.ni:hover{color:var(--tx);background:var(--s2)}
+.ni.on{color:var(--ac);border-left-color:var(--ac);background:var(--ac2)}
+.ni-ico{width:18px;text-align:center;font-size:15px}
+.sb-foot{padding:12px 16px;border-top:1px solid var(--bd);margin-top:auto}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{padding:11px 22px;border-bottom:1px solid var(--bd);background:var(--s1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap}
+.content{flex:1;padding:18px 22px;overflow-y:auto}
+.mtabs{display:flex;gap:4px;flex-wrap:wrap}
+.mt{padding:4px 12px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Onest';font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.mt.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.mt:hover:not(.on){border-color:var(--bd2);color:var(--tx)}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.met{background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);padding:12px}
+.met .lb{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.met .vl{font-size:22px;font-weight:700;font-family:'Bebas Neue';letter-spacing:.04em;line-height:1.1}
+.met .sb2{font-size:11px;color:var(--mu);margin-top:3px}
+.sh{font-size:11px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.sh::before{content:'';display:block;width:3px;height:14px;background:var(--ac);border-radius:2px;flex-shrink:0}
+.pb{height:5px;background:var(--s3);border-radius:3px;overflow:hidden;margin-top:4px}
+.pf{height:100%;border-radius:3px;transition:width .4s}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:7px 10px;color:var(--mu);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--bd);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid rgba(36,48,64,.6);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(26,37,53,.5)}
+.mono{font-family:monospace;font-size:11px;color:var(--mu)}
+.fl{margin-bottom:10px}
+.fl label{display:block;font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+input,select,textarea{background:var(--s2);border:1px solid var(--bd2);border-radius:var(--rs);color:var(--tx);font-family:'Onest';font-size:13px;padding:7px 10px;width:100%;outline:none;transition:border-color .15s}
+input:focus,select:focus{border-color:var(--ac)}
+input[type=number]{-moz-appearance:textfield}
+input[type=checkbox]{width:auto;cursor:pointer;accent-color:var(--ac)}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--s2);color:var(--tx);font-family:'Onest';font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn:hover{background:var(--s3);border-color:var(--mu2)}
+.btn.pr{background:var(--ac);border-color:var(--ac);color:#fff}
+.btn.pr:hover{background:#1a75d6}
+.btn.sm{padding:4px 9px;font-size:12px}
+.btn.dg{border-color:var(--re2);color:var(--re);background:transparent}
+.btn.dg:hover{background:var(--re2)}
+.btn.gh{border-color:transparent;background:transparent;color:var(--mu)}
+.btn.gh:hover{color:var(--tx);background:var(--s2)}
+.btn.ye{background:var(--ye2);border-color:var(--ye);color:var(--ye)}
+.ch{padding:5px 11px;border-radius:var(--rs);border:1px solid var(--bd2);background:transparent;color:var(--mu);font-family:'Onest';font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;user-select:none}
+.ch.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.ch.on.gr{background:var(--gr2);border-color:var(--gr);color:var(--gr)}
+.ch.on.or{background:var(--or2);border-color:var(--or);color:var(--or)}
+.ch.on.ye{background:var(--ye2);border-color:var(--ye);color:var(--ye)}
+.ch.on.pu{background:var(--pu2);border-color:var(--pu);color:var(--pu)}
+.ch.on.pi{background:rgba(244,114,182,.1);border-color:var(--pi);color:var(--pi)}
+.bdg{display:inline-block;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;letter-spacing:.04em}
+.bg{background:var(--gr2);color:var(--gr)}
+.bb{background:var(--ac2);color:var(--ac)}
+.by{background:var(--ye2);color:var(--ye)}
+.br{background:var(--re2);color:var(--re)}
+.bp{background:var(--pu2);color:var(--pu)}
+.bo{background:var(--or2);color:var(--or)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;background:var(--ac2);color:var(--ac);font-size:11px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:300}
+.mb{background:var(--s1);border:1px solid var(--bd2);border-radius:14px;padding:24px;width:540px;max-width:96vw;max-height:92vh;overflow-y:auto}
+.mt2{font-family:'Bebas Neue';font-size:20px;letter-spacing:.06em;margin-bottom:16px}
+.al{border-radius:var(--rs);padding:9px 13px;font-size:12px;margin-bottom:12px}
+.al.inf{background:var(--ac2);border:1px solid rgba(45,140,240,.3);color:var(--ac)}
+.al.wa{background:var(--or2);border:1px solid rgba(249,115,22,.3);color:var(--or)}
+.al.su{background:var(--gr2);border:1px solid rgba(34,211,160,.3);color:var(--gr)}
+.al.re{background:var(--re2);border:1px solid rgba(244,63,94,.3);color:var(--re)}
+.fb-wrap{margin-bottom:13px}
+.fb-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.fb-track{height:8px;background:var(--s3);border-radius:4px;overflow:hidden;position:relative}
+.fb-bg{position:absolute;inset:0;border-radius:4px}
+.fb-fill{position:absolute;top:0;left:0;height:100%;border-radius:4px;transition:width .4s}
+.bc{display:flex;align-items:flex-end;gap:6px;padding-top:10px}
+.bc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bc-fill{width:100%;border-radius:4px 4px 0 0;transition:height .3s;min-height:3px}
+.lw{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 55% 35%,#152540 0%,var(--bg) 65%)}
+.lc{background:var(--s1);border:1px solid var(--bd2);border-radius:16px;padding:36px;width:360px}
+.ll{text-align:center;margin-bottom:26px}
+.ll .n{font-family:'Bebas Neue';font-size:34px;letter-spacing:.1em;color:var(--ac)}
+.ll .s{font-size:11px;color:var(--mu);letter-spacing:.1em;margin-top:2px}
+.stab{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.stab-btn{padding:5px 12px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Onest';font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.stab-btn.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.stab-btn:hover:not(.on){color:var(--tx)}
+.risk-card{border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;border-left:3px solid}
+.risk-high{border-left-color:var(--re);background:var(--re2)}
+.risk-med{border-left-color:var(--ye);background:var(--ye2)}
+.risk-ok{border-left-color:var(--gr);background:var(--gr2)}
+.flex{display:flex}.ia{align-items:center}.jb{justify-content:space-between}
+.g6{gap:6px}.g8{gap:8px}.g10{gap:10px}.g12{gap:12px}.g14{gap:14px}
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt14{margin-top:14px}.mt16{margin-top:16px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb14{margin-bottom:14px}.mb16{margin-bottom:16px}
+.wf{width:100%}.f1{flex:1}
+.mu{color:var(--mu)}.sm{font-size:12px}.xs{font-size:11px}.fw6{font-weight:600}.fw7{font-weight:700}
+.sc{overflow-y:auto;max-height:380px}
+.dv{height:1px;background:var(--bd);margin:10px 0}
+.jc{justify-content:center}
+.tag-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="module">
+// ─── FIREBASE SETUP ────────────────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAUq5GEfkQEyPcpjCnNilJEBkwIqGIVYJM",
+  authDomain: "fresh-b426e.firebaseapp.com",
+  databaseURL: "https://fresh-b426e-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "fresh-b426e",
+  storageBucket: "fresh-b426e.firebasestorage.app",
+  messagingSenderId: "999009639796",
+  appId: "1:999009639796:web:e2d6acc2438efd7162e021",
+  measurementId: "G-51G4G9YXSP"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getDatabase(fbApp);
+const SK='fa_crm_v9';
+
+const KPI_SCHEMA_DEFAULT={
+  iron:    {name:'Железо',    includeInKpi:true, weight:0.50,includeInEarn:true, rate:11000,fixedRate:false},
+  credit:  {name:'Кредит',    includeInKpi:true, weight:0.25,includeInEarn:false,rate:0,    fixedRate:false},
+  exchange:{name:'Трейд-ин',  includeInKpi:true, weight:0.25,includeInEarn:false,rate:0,    fixedRate:false},
+  ptz:     {name:'ПТЗ',       includeInKpi:false,weight:0,   includeInEarn:false,rate:0,    fixedRate:false},
+  broker:  {name:'Брокер',    includeInKpi:false,weight:0,   includeInEarn:true, rate:11000,fixedRate:false},
+  cennik:  {name:'Ценник',    includeInKpi:false,weight:0,   includeInEarn:false,rate:5000, fixedRate:true},
+  interact:{name:'Интерактив',includeInKpi:false,weight:0,   includeInEarn:false,rate:0,    fixedRate:false},
+};
+
+const INIT_MONTHS=[
+  {id:'jun',name:'Июнь',days:30,targets:{iron:20,credit:8,exchange:7,ptz:4,broker:0,cennik:0,interact:0},schema:JSON.parse(JSON.stringify(KPI_SCHEMA_DEFAULT))},
+];
+const INIT_USERS=[
+  {id:'admin',name:'РОП',login:'admin',pass:'azar',role:'admin',av:'РОП'},
+];
+const INIT_DEALS={};
+
+function loadS(){
+  return{users:INIT_USERS,deals:INIT_DEALS,months:INIT_MONTHS,user:null};
+}
+function save(){
+  const toSave={users:S.users,deals:S.deals,months:S.months};
+  set(ref(db,'crm'),toSave).catch(e=>console.error('Firebase save error:',e));
+}
+async function loadFromFirebase(){
+  try{
+    const snap=await get(ref(db,'crm'));
+    if(snap.exists()){
+      const data=snap.val();
+      if(data.months) S.months=data.months.map(m=>{
+        if(!m.schema)m.schema=JSON.parse(JSON.stringify(KPI_SCHEMA_DEFAULT));
+        if(!m.targets)m.targets={iron:20,credit:8,exchange:7,ptz:4,broker:0,cennik:0,interact:0};
+        return m;
+      });
+      if(data.users) S.users=data.users;
+      if(data.deals) S.deals=data.deals;
+    }
+  }catch(e){console.error('Firebase load error:',e);}
+}
+// Слушаем изменения в реальном времени
+function startRealtimeSync(){
+  onValue(ref(db,'crm'),(snap)=>{
+    if(!snap.exists())return;
+    const data=snap.val();
+    const currentUser=S.user;
+    if(data.months) S.months=data.months.map(m=>{
+      if(!m.schema)m.schema=JSON.parse(JSON.stringify(KPI_SCHEMA_DEFAULT));
+      if(!m.targets)m.targets={iron:20,credit:8,exchange:7,ptz:4,broker:0,cennik:0,interact:0};
+      return m;
+    });
+    if(data.users) S.users=data.users;
+    if(data.deals) S.deals=data.deals;
+    S.user=currentUser;
+    initSelMid();
+    go();
+  });
+}
+let S=loadS();
+let uiTab='overview',mgrTab='deals',selMid,selMgr=null,modal=null,statsFilter='all',analyticsFilter='all';
+
+function initSelMid(){selMid=S.months.length?S.months[S.months.length-1].id:'jun';}
+initSelMid();
+
+// ─── CALC ENGINE ───────────────────────────────────────
+function calcSt(deals,m,dayNow){
+  const sc=m.schema,tg=m.targets,d=deals||[];
+  const counts={iron:0,credit:0,exchange:0,ptz:0,broker:0,cennik:0,interact:0};
+  d.forEach(x=>{Object.keys(counts).forEach(k=>{if(x[k])counts[k]++;});});
+  const kpiIronCount = d.filter(x=>x.iron||x.broker).length;   // для KPI
+// НЕ перезаписываем counts.iron – он остаётся только выдачами
+let kpi = 0;
+Object.entries(sc).forEach(([k,cfg])=>{
+  if(!cfg.includeInKpi)return;
+  const t = tg[k]||0;
+  const factVal = k==='iron' ? kpiIronCount : counts[k];   // используем отдельную переменную
+  kpi += t>0 ? Math.min(factVal/t,1.0)*cfg.weight : 0;
+});
+// база earnings использует counts.iron (только выдачи) и counts.broker – без дубляжаЫ
+  let earnBase=0,earnFixed=0;
+  Object.entries(sc).forEach(([k,cfg])=>{
+    if(cfg.fixedRate&&cfg.rate>0)earnFixed+=counts[k]*cfg.rate;
+    else if(cfg.includeInEarn&&cfg.rate>0)earnBase+=counts[k]*cfg.rate;
+  });
+  const totalZP=Math.round(earnBase*kpi+earnFixed);
+  const days=dayNow||m.days;
+  const coef=days>0?m.days/days:1;
+  const fc={};
+  Object.keys(counts).forEach(k=>fc[k]=counts[k]*coef);
+  fc.zp=Math.round(earnBase*coef*kpi+earnFixed);
+  fc.earnBase=Math.round(earnBase*coef);
+  return { counts, kpiIronCount, kpi, earnBase, earnFixed, totalZP, fc, schema: sc, targets: tg };
+}
+
+function getDeals(uid,mid){
+  if(!S.deals[uid])S.deals[uid]={};
+  if(!S.deals[uid][mid])S.deals[uid][mid]=[];
+  return S.deals[uid][mid];
+}
+function allDealsOf(uid){
+  const out=[];
+  S.months.forEach(m=>getDeals(uid,m.id).forEach(d=>out.push({...d,_mid:m.id,_mn:m.name})));
+  return out;
+}
+function getManagers(){return S.users.filter(u=>u.role==='manager');}
+function dayNowFor(mid){
+  const m=S.months.find(x=>x.id===mid);if(!m)return null;
+  const now=new Date();
+  // detect current month by checking if today falls within this month's range
+  // We use a simple heuristic: if selMid matches the latest month, use today's date
+  const idx=S.months.indexOf(m);
+  if(idx===S.months.length-1){
+    // latest month = current
+    return Math.min(now.getDate(),m.days);
+  }
+  return null;
+}
+function lastIdleDays(uid,mid){
+  const d=getDeals(uid,mid);if(!d.length)return 999;
+  const sorted=[...d].sort((a,b)=>b.date.localeCompare(a.date));
+  const last=new Date(sorted[0].date);
+  const ref=new Date();
+  return Math.max(0,Math.floor((ref-last)/86400000));
+}
+function brandTop(deals){
+  const m={};deals.forEach(d=>{if(d.brand)m[d.brand]=(m[d.brand]||0)+1;});
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]);
+}
+function yearGroups(deals){
+  const g={'2022+':0,'2018–2021':0,'2014–2017':0,'до 2014':0};
+  deals.forEach(d=>{const y=parseInt(d.year);if(!y)return;
+    if(y>=2022)g['2022+']++;else if(y>=2018)g['2018–2021']++;else if(y>=2014)g['2014–2017']++;else g['до 2014']++;});
+  return Object.entries(g).filter(([,v])=>v>0);
+}
+
+// ─── RENDER HELPERS ────────────────────────────────────
+const $=id=>document.getElementById(id);
+function R(html){$('root').innerHTML=html;bindEvents();}
+function fmt(n){return Math.round(n||0).toLocaleString('ru-RU');}
+// KPI форматирование: "1,21" вместо "121%"
+function fmtKpi(k){return (k*100).toFixed(2).replace('.',',')+'%';}
+function barC(p){return p>=100?'var(--gr)':p>=70?'var(--ye)':p>=50?'var(--or)':'var(--re)';}
+function kpiC(k){return k>=0.9?'var(--gr)':k>=0.65?'var(--ye)':'var(--re)';}
+function pct(v,t){return t>0?Math.min(Math.round(v/t*100),100):0;}
+function avHtml(av,sz=28){return `<div class="av" style="width:${sz}px;height:${sz}px">${av||'?'}</div>`;}
+function badgeDeal(v){return v?`<span class="bdg bg">✓</span>`:`<span class="xs mu">—</span>`;}
+function foreBar(label,v,fc,t,col='var(--ac)'){
+  const pA=pct(v,t),pF=Math.min(pct(Math.round(fc),t),100);
+  return `<div class="fb-wrap">
+    <div class="fb-row"><span class="fw6 sm">${label}</span>
+      <span class="xs mu">Факт:<b style="color:${col}"> ${v}</b> · Прогноз:<b style="color:var(--gr)"> ${Math.round(fc)}</b> · Цель: ${t}</span>
+    </div>
+    <div class="fb-track">
+      <div class="fb-bg" style="width:${pF}%;background:rgba(34,211,160,.15)"></div>
+      <div class="fb-fill" style="width:${pA}%;background:${col}"></div>
+    </div>
+    <div class="flex g8 xs mu mt8"><span>▬ Факт ${pA}%</span><span style="color:var(--gr)">▬ Прогноз ${pF}%</span></div>
+  </div>`;
+}
+function miniBar(v,t,col){
+  const p=pct(v,t);
+  return `<div style="margin-bottom:6px">
+    <div class="flex jb xs mb8"><span>${v}/${t}</span><span style="color:${col||barC(p)}">${p}%</span></div>
+    <div class="pb"><div class="pf" style="width:${p}%;background:${col||barC(p)}"></div></div>
+  </div>`;
+}
+function monthTabs(){
+  return `<div class="mtabs">
+    ${S.months.map(m=>`<button class="mt${selMid===m.id?' on':''}" onclick="setMid('${m.id}')">${m.name}</button>`).join('')}
+    <button class="mt" onclick="addMonth()">＋</button>
+  </div>`;
+}
+function shell(nav,content){
+  const u=S.user;
+  return `<div class="shell">
+<div class="sb">
+  <div class="sb-logo"><div class="lg">FRESH AUTO</div><div class="slg">CRM · КРАСНОДАР</div></div>
+  <div class="nav">${nav}</div>
+  <div class="sb-foot">
+    <div class="flex ia g8 mb8">${avHtml(u.av,30)}<div><div class="sm fw6">${u.name}</div><div class="xs mu">${u.role==='admin'?'РОП/СМОП':'МОП'}</div></div></div>
+    <button class="btn gh sm wf jc" onclick="doLogout()">Выйти</button>
+  </div>
+</div>
+<div class="main">
+  <div class="topbar">${monthTabs()}<span class="xs mu" id="topdate">${new Date().toLocaleDateString('ru-RU')}</span></div>
+  <div class="content">${content}</div>
+</div>
+</div>${modal?renderModal():''}`;
+}
+
+// ─── LOGIN ──────────────────────────────────────────────
+function renderLogin(err=''){
+  R(`<div class="lw"><div class="lc">
+    <div class="ll"><div class="n">FRESH AUTO</div><div class="s">CRM ПРОДАЖ · КРАСНОДАР</div></div>
+    <div class="fl"><label>Логин</label><input id="li" placeholder="Логин" autocomplete="username"/></div>
+    <div class="fl"><label>Пароль</label><input id="lp" type="password" placeholder="Пароль" autocomplete="current-password"/></div>
+    ${err?`<div class="al wa">${err}</div>`:''}
+    <button class="btn pr wf jc" onclick="doLogin()">Войти →</button>
+  </div></div>`);
+  $('lp').onkeydown=e=>{if(e.key==='Enter')doLogin();};
+}
+
+// ─── ADMIN NAV ──────────────────────────────────────────
+function adminNav(){
+  return [{id:'overview',ico:'📊',lbl:'Обзор'},{id:'managers',ico:'👥',lbl:'Сотрудники'},{id:'analytics',ico:'📈',lbl:'Аналитика'},{id:'settings',ico:'⚙️',lbl:'Настройки'}]
+    .map(t=>`<div class="ni${uiTab===t.id?' on':''}" onclick="setTab('${t.id}')"><span class="ni-ico">${t.ico}</span>${t.lbl}</div>`).join('');
+}
+function renderAdmin(){
+  let c='';
+  if(uiTab==='overview')c=adminOverview();
+  if(uiTab==='managers')c=selMgr?adminMgrDetail(selMgr):adminManagers();
+  if(uiTab==='analytics')c=adminAnalytics();
+  if(uiTab==='settings')c=adminSettings();
+  R(shell(adminNav(),c));
+}
+
+// ─── ADMIN OVERVIEW ─────────────────────────────────────
+function adminOverview(){
+  const mgrs=getManagers();
+  const m=S.months.find(x=>x.id===selMid)||S.months[0];
+  if(!m)return`<div class="al wa">Нет месяцев. Добавьте в настройках.</div>`;
+  const day=dayNowFor(selMid);
+  const rows=mgrs.map(u=>{
+    const s=calcSt(getDeals(u.id,selMid),m,day);
+    return{u,s,idle:lastIdleDays(u.id,selMid)};
+  });
+  const totD=rows.reduce((a,r)=>a+r.s.kpiIronCount,0);
+  const totZP=rows.reduce((a,r)=>a+r.s.totalZP,0);
+  const avgKpi=rows.length?rows.reduce((a,r)=>a+r.s.kpi,0)/rows.length:0;
+
+  if(!mgrs.length)return`<div class="card"><div style="text-align:center;padding:40px;color:var(--mu)">
+    <div style="font-size:32px;margin-bottom:12px">👥</div>
+    <div class="fw6 sm">Нет менеджеров</div>
+    <div class="xs mt8">Добавьте МОП в разделе «Настройки»</div>
+    <button class="btn pr sm mt12" onclick="setTab('settings')">Добавить МОП</button>
+  </div></div>`;
+
+  return `
+<div class="g5 mb14">
+  <div class="met"><div class="lb">МОП</div><div class="vl">${mgrs.length}</div></div>
+  <div class="met"><div class="lb">Сделок ${m.name}${day?` д.${day}/${m.days}`:''}</div><div class="vl">${totD}</div></div>
+  <div class="met"><div class="lb">Средний KPI</div><div class="vl" style="color:${kpiC(avgKpi)}">${fmtKpi(avgKpi)}</div></div>
+  <div class="met"><div class="lb">ЗП к выплате</div><div class="vl">${fmt(totZP)} ₽</div></div>
+  ${day?`<div class="met"><div class="lb">Прогноз сделок</div><div class="vl" style="color:var(--ac)">${rows.reduce((a,r)=>a+Math.round(r.s.fc.iron),0)}</div></div>`:
+       `<div class="met"><div class="lb">Месяц</div><div class="vl" style="font-size:14px">${m.name}</div></div>`}
+</div>
+
+<div class="card mb14">
+  <div class="sh">Команда — ${m.name}</div>
+  <div class="tw"><table>
+    <thead><tr><th>Сотрудник</th><th>Сделки</th><th>KPI</th>
+      ${Object.entries(m.schema).filter(([,c])=>c.includeInKpi).map(([,c])=>`<th>${c.name}</th>`).join('')}
+      <th>ЗП</th><th>Простой</th><th></th>
+    </tr></thead>
+    <tbody>
+    ${rows.map(({u,s,idle})=>{
+      const p=pct(s.kpiIronCount,m.targets.iron);
+      const ib=idle===0?`<span class="bdg bg">сегодня</span>`:idle<=2?`<span class="bdg bb">${idle}д</span>`:`<span class="bdg br">${idle}д!</span>`;
+      return `<tr>
+        <td><div class="flex ia g8">${avHtml(u.av,26)}<span class="fw6">${u.name}</span></div></td>
+        <td><b>${s.kpiIronCount}</b>/${m.targets.iron}<div class="pb mt8" style="min-width:50px"><div class="pf" style="width:${p}%;background:${barC(p)}"></div></div></td>
+        <td style="color:${kpiC(s.kpi)};font-weight:700">${fmtKpi(s.kpi)}</td>
+        ${Object.entries(m.schema).filter(([,c])=>c.includeInKpi).map(([k])=>`<td>${s.counts[k]}/${m.targets[k]||0}</td>`).join('')}
+        <td class="fw6">${fmt(s.totalZP)} ₽</td>
+        <td>${ib}</td>
+        <td><button class="btn sm" onclick="viewMgr('${u.id}')">→</button></td>
+      </tr>`;
+    }).join('')}
+    </tbody>
+  </table></div>
+</div>
+
+${rows.map(({u,s,idle})=>`
+<div class="card mb14" style="border-left:3px solid ${idle>=3?'var(--re)':s.kpi<0.5?'var(--or)':'var(--bd2)'}">
+  <div class="flex ia jb mb12">
+    <div class="flex ia g10">${avHtml(u.av,38)}
+      <div><div class="fw7" style="font-size:15px">${u.name}</div>
+        <div class="xs mu">${idle===0?`<span style="color:var(--gr)">● выдача сегодня</span>`:
+          idle<=2?`<span style="color:var(--ye)">● ${idle} дн. без выдач</span>`:
+          `<span style="color:var(--re)">⚠ простой ${idle} дней</span>`}</div>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:20px;font-weight:700">${fmt(s.totalZP)} ₽</div>
+      <div class="xs mu">KPI <b style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</b>${day?` · прогноз ${fmt(s.fc.zp)} ₽`:''}</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px">
+    ${Object.entries(m.schema).filter(([,c])=>c.includeInKpi).map(([k,c])=>{
+      const v=s.counts[k],t=m.targets[k]||0,p=pct(v,t);
+      return `<div class="met"><div class="lb">${c.name}</div><div class="vl" style="font-size:18px;color:${barC(p)}">${v}/${t}</div>
+        <div class="pb mt8"><div class="pf" style="width:${p}%;background:${barC(p)}"></div></div></div>`;
+    }).join('')}
+  </div>
+</div>`).join('')}`;
+}
+
+// ─── ADMIN MANAGERS ─────────────────────────────────────
+function adminManagers(){
+  const mgrs=getManagers();
+  const m=S.months.find(x=>x.id===selMid)||S.months[0];
+  const day=m?dayNowFor(selMid):null;
+  return `
+<div class="flex ia jb mb14">
+  <div class="sh" style="margin-bottom:0">Сотрудники</div>
+  <button class="btn pr sm" onclick="openModal('addUser',{})">＋ Добавить МОП</button>
+</div>
+${!mgrs.length?`<div class="card"><div class="xs mu" style="text-align:center;padding:30px">Нет менеджеров. Добавьте через кнопку выше.</div></div>`:''}
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">
+${mgrs.map(u=>{
+  if(!m)return'';
+  const s=calcSt(getDeals(u.id,selMid),m,day);
+  const idle=lastIdleDays(u.id,selMid);
+  const allD=allDealsOf(u.id);
+  const allSt=S.months.map(mo=>{const ds=getDeals(u.id,mo.id);return{...calcSt(ds,mo,mo.id===selMid?day:null),name:mo.name.slice(0,3),target:mo.targets.iron,month:mo};});
+  const bestMonth=allSt.reduce((b,x)=>x.counts.iron>b.counts.iron?x:b,allSt[0]);
+  return `<div class="card" style="cursor:pointer;border-top:3px solid ${kpiC(s.kpi)}" onclick="viewMgr('${u.id}')">
+    <div class="flex ia g10 mb12">${avHtml(u.av,40)}
+      <div style="flex:1">
+        <div class="fw7" style="font-size:15px">${u.name}</div>
+        <div class="xs mu">${u.login} · ${allD.length} сделок всего</div>
+        <div class="xs mt8">${idle===0?`<span style="color:var(--gr)">● активен сегодня</span>`:
+          idle<3?`<span style="color:var(--ye)">● ${idle} дн. без выдач</span>`:
+          `<span style="color:var(--re)">⚠ простой ${idle} дней</span>`}</div>
+      </div>
+    </div>
+    <div class="g2 mb12">
+      <div class="met"><div class="lb">KPI ${m.name}</div><div class="vl" style="font-size:20px;color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
+      <div class="met"><div class="lb">ЗП ${m.name}</div><div class="vl" style="font-size:20px">${fmt(s.totalZP)} ₽</div></div>
+    </div>
+    <div class="g3">
+      <div class="met" style="padding:8px"><div class="lb">Сделки</div><div style="font-size:16px;font-weight:700;color:${barC(pct(s.kpiIronCount,m.targets.iron))}">${s.kpiIronCount}/${m.targets.iron}</div></div>
+      <div class="met" style="padding:8px"><div class="lb">Кредит</div><div style="font-size:16px;font-weight:700;color:${barC(pct(s.counts.credit,m.targets.credit||8))}">${s.counts.credit}/${m.targets.credit||8}</div></div>
+      <div class="met" style="padding:8px"><div class="lb">Обмен</div><div style="font-size:16px;font-weight:700;color:${barC(pct(s.counts.exchange,m.targets.exchange||7))}">${s.counts.exchange}/${m.targets.exchange||7}</div></div>
+    </div>
+    ${day?`<div class="xs mu mt8 flex jb"><span>Прогноз сделок:</span><span style="color:var(--gr);font-weight:600">${Math.round(s.fc.iron)} из ${m.targets.iron}</span></div>`:''}
+  </div>`;
+}).join('')}
+</div>`;
+}
+
+// ─── ADMIN MGR DETAIL ───────────────────────────────────
+function adminMgrDetail(uid){
+  const u=S.users.find(x=>x.id===uid);if(!u)return'';
+  const m=S.months.find(x=>x.id===selMid)||S.months[0];if(!m)return'';
+  const day=dayNowFor(selMid);
+  const deals=getDeals(uid,selMid);
+  const s=calcSt(deals,m,day);
+  const all=allDealsOf(uid);
+  const brands=brandTop(all);
+  const yrs=yearGroups(all);
+  const idle=lastIdleDays(uid,selMid);
+  const allSt=S.months.map(mo=>{const ds=getDeals(uid,mo.id);const st=calcSt(ds,mo,mo.id===selMid?day:null);return{...st,name:mo.name.slice(0,3),target:mo.targets.iron,month:mo};});
+  const maxB=Math.max(...allSt.map(x=>x.counts.iron),m.targets.iron,1);
+
+  // Risk assessment
+  const risks=[];
+  if(idle>=3)risks.push({lvl:'high',text:`Простой ${idle} дней — нет выдач`});
+  if(s.kpi<0.5)risks.push({lvl:'high',text:`KPI критически низкий: ${fmtKpi(s.kpi)}`});
+  else if(s.kpi<0.8)risks.push({lvl:'med',text:`KPI ниже нормы: ${fmtKpi(s.kpi)}`});
+  const crPct=pct(s.counts.credit,m.targets.credit||8);
+  if(crPct<50)risks.push({lvl:'med',text:`Кредит выполнен на ${crPct}%`});
+  const exPct=pct(s.counts.exchange,m.targets.exchange||7);
+  if(exPct<50)risks.push({lvl:'med',text:`Трейд-ин выполнен на ${exPct}%`});
+  if(risks.length===0)risks.push({lvl:'ok',text:'Показатели в норме'});
+
+  return `
+<button class="btn gh sm mb14" onclick="selMgr=null;renderAdmin()">← Назад</button>
+<div class="flex ia g12 mb14">${avHtml(u.av,46)}
+  <div>
+    <div style="font-size:18px;font-weight:700">${u.name}</div>
+    <div class="xs mu">Всего сделок: <b>${all.length}</b> · Логин: ${u.login}</div>
+    <div class="xs mt8">${idle===0?`<span style="color:var(--gr)">● активен сегодня</span>`:
+      idle<3?`<span style="color:var(--ye)">● ${idle} дн. без выдач</span>`:
+      `<span style="color:var(--re)">⚠ простой ${idle} дней!</span>`}</div>
+  </div>
+  <div style="margin-left:auto;text-align:right">
+    <div style="font-size:22px;font-weight:700;color:var(--gr)">${fmt(s.totalZP)} ₽</div>
+    <div class="xs mu">KPI: <b style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</b> · ${m.name}</div>
+  </div>
+</div>
+
+<div class="g4 mb14">
+  <div class="met"><div class="lb">Сделок (${m.name})</div><div class="vl">${s.kpiIronCount}/${m.targets.iron}</div></div>
+  <div class="met"><div class="lb">KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
+  <div class="met"><div class="lb">База заработка</div><div class="vl">${fmt(s.earnBase)} ₽</div></div>
+  <div class="met"><div class="lb">ЗП итого</div><div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div></div>
+</div>
+
+${day?`<div class="al inf mb14">📅 День ${day}/${m.days} · Прогноз сделок: <b>${Math.round(s.fc.iron)}</b> · Прогноз ЗП: <b>${fmt(s.fc.zp)} ₽</b></div>`:''}
+
+<div class="g2 mb14">
+  <div class="card">
+    <div class="sh">Оценка рисков</div>
+    ${risks.map(r=>`<div class="risk-card risk-${r.lvl}">
+      <span class="xs fw6">${r.lvl==='high'?'🔴':r.lvl==='med'?'🟡':'🟢'} ${r.text}</span>
+    </div>`).join('')}
+    ${idle>=3||s.kpi<0.7?`<div class="mt12">
+      <div class="xs fw6 mb8" style="color:var(--or)">Рекомендации:</div>
+      <div class="xs mu" style="line-height:1.8">
+        ${idle>=3?'• Требуется встреча — обсудить причины простоя<br>':''}
+        ${s.kpi<0.7?'• Провести разбор звонков и встреч с клиентами<br>':''}
+        ${pct(s.counts.credit,m.targets.credit||8)<60?'• Усилить работу по кредитным предложениям<br>':''}
+        ${pct(s.counts.exchange,m.targets.exchange||7)<60?'• Системно предлагать трейд-ин на каждой сделке<br>':''}
+      </div>
+    </div>`:''}
+  </div>
+  <div class="card">
+    <div class="sh">Выполнение плана — ${m.name}</div>
+    ${Object.entries(m.schema).filter(([,c])=>c.includeInKpi).map(([k,c])=>{
+      const v=s.counts[k],t=m.targets[k]||0,p=pct(v,t);
+      return `<div class="mb8"><div class="flex jb xs mb8"><span class="fw6">${c.name} <span class="mu">вес ${c.weight}</span></span><span style="color:${barC(p)}">${v}/${t} · ${p}%</span></div>
+        <div class="pb"><div class="pf" style="width:${p}%;background:${barC(p)}"></div></div></div>`;
+    }).join('')}
+    <div class="dv"></div>
+    <div class="flex jb xs fw6"><span>KPI итог:</span><span style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</span></div>
+  </div>
+</div>
+
+<div class="g2 mb14">
+  <div class="card">
+    <div class="sh">Динамика по месяцам</div>
+    <div class="bc" style="height:120px">
+      ${allSt.map(ms=>{
+        const h=Math.round(ms.counts.iron/maxB*95)+2,th=Math.round(ms.target/maxB*95)+2;
+        const col=ms.counts.iron>=ms.target?'var(--gr)':ms.counts.iron>=ms.target*.7?'var(--ye)':'var(--re)';
+        return `<div class="bc-col"><div class="xs fw6" style="color:${col}">${ms.counts.iron}</div>
+          <div style="display:flex;align-items:flex-end;gap:2px;height:95px">
+            <div class="bc-fill" style="background:${col};height:${h}px;flex:1"></div>
+            <div class="bc-fill" style="background:var(--bd2);height:${th}px;flex:1"></div>
+          </div><div style="font-size:10px;color:var(--mu)">${ms.name}</div></div>`;
+      }).join('')}
+    </div>
+    <div class="flex g12 xs mu mt8"><span>█ Факт</span><span style="color:var(--bd2)">█ Цель</span></div>
+  </div>
+  <div class="card">
+    <div class="sh">Топ марок (все месяцы)</div>
+    ${brands.length?brands.slice(0,7).map(([b,c])=>`<div class="mb8">
+      <div class="flex jb xs mb8"><span>${b}</span><span class="fw6">${c}</span></div>
+      <div class="pb"><div class="pf" style="width:${all.length?Math.round(c/all.length*100):0}%;background:var(--ac)"></div></div>
+    </div>`).join(''):'<div class="xs mu">Нет данных</div>'}
+  </div>
+</div>
+
+<div class="g2 mb14">
+  <div class="card">
+    <div class="sh">Навыки (все завершённые месяцы)</div>
+    ${(()=>{
+      const comp=allSt.filter(ms=>!dayNowFor(ms.month.id));
+      if(!comp.length)return'<div class="xs mu">Нет завершённых месяцев</div>';
+      return[
+        {l:'Железо',v:Math.round(comp.reduce((a,x)=>a+pct(x.counts.iron,x.target),0)/comp.length)},
+        {l:'Кредит',v:Math.round(comp.reduce((a,x)=>a+pct(x.counts.credit,x.month.targets.credit||8),0)/comp.length)},
+        {l:'Трейд-ин',v:Math.round(comp.reduce((a,x)=>a+pct(x.counts.exchange,x.month.targets.exchange||7),0)/comp.length)},
+        {l:'Брокер',v:Math.min(Math.round(comp.reduce((a,x)=>a+x.counts.broker,0)/comp.length/3*100),120)},
+        {l:'ПТЗ',v:Math.round(comp.reduce((a,x)=>a+pct(x.counts.ptz,x.month.targets.ptz||4),0)/comp.length)},
+      ].map(sk=>`<div class="flex ia jb" style="padding:7px 0;border-bottom:1px solid var(--bd)">
+        <span class="sm">${sk.l}</span>
+        <div class="flex ia g8">
+          <div style="width:90px;height:5px;background:var(--s3);border-radius:3px"><div style="width:${Math.min(sk.v,100)}%;height:100%;border-radius:3px;background:${barC(sk.v)}"></div></div>
+          <span class="bdg ${sk.v>=100?'bg':sk.v>=70?'by':'br'}">${sk.v}%</span>
+        </div>
+      </div>`).join('');
+    })()}
+  </div>
+  <div class="card">
+    <div class="sh">Год выпуска авто</div>
+    ${yrs.map(([g,c])=>`<div class="mb8">
+      <div class="flex jb xs mb8"><span>${g}</span><span class="fw6">${c} шт.</span></div>
+      <div class="pb"><div class="pf" style="width:${all.length?Math.round(c/all.length*100):0}%;background:var(--pu)"></div></div>
+    </div>`).join('')||'<div class="xs mu">Нет данных</div>'}
+  </div>
+</div>
+
+<div class="card">
+  <div class="sh">Сделки — ${m.name} (${deals.length})</div>
+  ${deals.length?`<div class="sc tw"><table>
+    <thead><tr><th>#</th><th>Дата</th><th>Марка</th><th>Модель</th><th>VIN</th><th>Год</th>
+      ${Object.entries(m.schema).map(([,c])=>`<th>${c.name}</th>`).join('')}
+    </tr></thead>
+    <tbody>
+    ${[...deals].sort((a,b)=>b.date.localeCompare(a.date)).map((d,i)=>`<tr>
+      <td class="mu xs">${i+1}</td><td>${d.date}</td>
+      <td class="fw6">${d.brand||'—'}</td><td>${d.model||'—'}</td>
+      <td class="mono">${d.vin||'—'}</td><td>${d.year||'—'}</td>
+      ${Object.keys(m.schema).map(k=>`<td style="text-align:center">${badgeDeal(d[k])}</td>`).join('')}
+    </tr>`).join('')}
+    </tbody>
+  </table></div>`:'<div class="xs mu" style="text-align:center;padding:24px">Нет сделок в этом месяце</div>'}
+</div>`;
+}
+
+// ─── ADMIN ANALYTICS ────────────────────────────────────
+function adminAnalytics(){
+  const mgrs=getManagers();
+  const m=S.months.find(x=>x.id===selMid)||S.months[0];
+  if(!m||!mgrs.length)return`<div class="card"><div class="xs mu" style="text-align:center;padding:30px">Нет данных для анализа</div></div>`;
+  const day=dayNowFor(selMid);
+
+  const rows=mgrs.map(u=>{
+    const s=calcSt(getDeals(u.id,selMid),m,day);
+    const all=allDealsOf(u.id);
+    const idle=lastIdleDays(u.id,selMid);
+    const allSt=S.months.map(mo=>{const ds=getDeals(u.id,mo.id);return{...calcSt(ds,mo,null),name:mo.name.slice(0,3),month:mo};});
+    return{u,s,all,idle,allSt};
+  });
+
+  // Сортировка по KPI
+  const sorted=[...rows].sort((a,b)=>b.s.kpi-a.s.kpi);
+
+  // Кто нуждается в проработке
+  const needAttention=rows.filter(r=>r.idle>=3||r.s.kpi<0.6);
+
+  return `
+<div class="card mb14">
+  <div class="sh">Рейтинг эффективности — ${m.name}</div>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Сотрудник</th><th>Сделки</th><th>KPI</th>
+      ${Object.entries(m.schema).filter(([,c])=>c.includeInEarn||c.fixedRate).map(([,c])=>`<th>${c.name}</th>`).join('')}
+      <th>Брокер</th><th>Ценник</th><th>ЗП</th><th>Статус</th>
+    </tr></thead>
+    <tbody>
+    ${sorted.map(({u,s},i)=>{
+      const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+      return `<tr>
+        <td>${medal||i+1}</td>
+        <td><div class="flex ia g8">${avHtml(u.av,26)}<span class="fw6">${u.name}</span></div></td>
+        <td>${s.kpiIronCount}/${m.targets.iron}</td>
+        <td style="color:${kpiC(s.kpi)};font-weight:700">${fmtKpi(s.kpi)}</td>
+        ${Object.entries(m.schema).filter(([,c])=>c.includeInEarn||c.fixedRate).map(([k,c])=>`<td>${fmt(s.counts[k]*c.rate)} ₽</td>`).join('')}
+        <td>${s.counts.broker}</td>
+        <td>${s.counts.cennik}</td>
+        <td class="fw6">${fmt(s.totalZP)} ₽</td>
+        <td><span class="bdg ${s.kpi>=0.9?'bg':s.kpi>=0.65?'by':'br'}">${s.kpi>=0.9?'Топ':s.kpi>=0.65?'Норма':'Риск'}</span></td>
+      </tr>`;
+    }).join('')}
+    </tbody>
+  </table></div>
+</div>
+
+${needAttention.length?`
+<div class="card mb14" style="border-left:3px solid var(--re)">
+  <div class="sh">⚠ Требуют внимания — вызвать на встречу</div>
+  ${needAttention.map(({u,s,idle})=>`<div class="flex ia jb" style="padding:10px 0;border-bottom:1px solid var(--bd)">
+    <div class="flex ia g10">${avHtml(u.av,32)}
+      <div>
+        <div class="fw6 sm">${u.name}</div>
+        <div class="xs mu">${[
+          idle>=3?`<span style="color:var(--re)">Простой ${idle} дней</span>`:'',
+          s.kpi<0.6?`<span style="color:var(--or)">KPI: ${fmtKpi(s.kpi)}</span>`:'',
+          pct(s.counts.credit,m.targets.credit||8)<50?`Кредит ${pct(s.counts.credit,m.targets.credit||8)}%`:'',
+          pct(s.counts.exchange,m.targets.exchange||7)<50?`Трейд-ин ${pct(s.counts.exchange,m.targets.exchange||7)}%`:'',
+        ].filter(Boolean).join(' · ')}</div>
+      </div>
+    </div>
+    <button class="btn sm ye" onclick="viewMgr('${u.id}');setTab('managers')">Детали →</button>
+  </div>`).join('')}
+</div>`:''}
+
+<div class="g2 mb14">
+  <div class="card">
+    <div class="sh">Сравнение KPI по месяцам</div>
+    <div class="tw"><table>
+      <thead><tr><th>МОП</th>${S.months.map(mo=>`<th>${mo.name.slice(0,3)}</th>`).join('')}</tr></thead>
+      <tbody>
+      ${rows.map(({u,allSt})=>`<tr>
+        <td><div class="flex ia g6">${avHtml(u.av,22)}<span class="sm">${u.name}</span></div></td>
+        ${allSt.map(ms=>`<td style="color:${kpiC(ms.kpi)};font-weight:600">${fmtKpi(ms.kpi)}</td>`).join('')}
+      </tr>`).join('')}
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="sh">Простои — ${m.name}</div>
+    ${rows.map(({u,idle})=>`<div class="flex ia jb" style="padding:8px 0;border-bottom:1px solid var(--bd)">
+      <div class="flex ia g8">${avHtml(u.av,28)}<span class="sm fw6">${u.name}</span></div>
+      <span class="bdg ${idle===0?'bg':idle<=2?'bb':'br'}">${idle===0?'сегодня':idle+' дн.'}</span>
+    </div>`).join('')}
+  </div>
+</div>
+
+<div class="g2 mb14">
+  ${rows.map(({u,all})=>{
+    const brnds=brandTop(all).slice(0,5),mx=brnds[0]?brnds[0][1]:1;
+    return `<div class="card">
+      <div class="sh">${u.name} — топ марок</div>
+      ${brnds.length?brnds.map(([b,c])=>`<div class="mb8">
+        <div class="flex jb xs mb8"><span>${b}</span><span>${c}</span></div>
+        <div class="pb"><div class="pf" style="width:${Math.round(c/mx*100)}%;background:var(--ac)"></div></div>
+      </div>`).join(''):'<div class="xs mu">Нет данных</div>'}
+    </div>`;
+  }).join('')}
+</div>
+
+<div class="card">
+  <div class="sh">Сводная таблица каналов — ${m.name}</div>
+  <div class="tw"><table>
+    <thead><tr><th>Сотрудник</th>${Object.entries(m.schema).map(([,c])=>`<th>${c.name}</th>`).join('')}</tr></thead>
+    <tbody>
+    ${rows.map(({u,s})=>`<tr>
+      <td><div class="flex ia g6">${avHtml(u.av,22)}<span class="sm fw6">${u.name}</span></div></td>
+      ${Object.keys(m.schema).map(k=>`<td style="text-align:center">${s.counts[k]>0?`<b style="color:var(--gr)">${s.counts[k]}</b>`:`<span class="mu xs">—</span>`}</td>`).join('')}
+    </tr>`).join('')}
+    </tbody>
+  </table></div>
+</div>`;
+}
+
+// ─── ADMIN SETTINGS ─────────────────────────────────────
+function adminSettings(){
+  const m=S.months.find(x=>x.id===selMid)||S.months[0];
+  if(!m)return`<div class="al wa">Добавьте месяц</div>`;
+  const sc=m.schema,tg=m.targets;
+  const totalW=Object.values(sc).filter(c=>c.includeInKpi).reduce((a,c)=>a+c.weight,0);
+  const wOk=Math.abs(totalW-1.0)<0.001;
+
+  return `
+<div class="g2">
+<div>
+  <div class="card mb12">
+    <div class="sh">Формула KPI — ${m.name}</div>
+    <div class="al inf mb12 xs">
+      KPI = Σ (Факт/Цель × Вес) · ЗП = (Железо+Брокер)×KPI + Ценник×5000₽<br>
+      <b>Сумма весов: <span style="color:${wOk?'var(--gr)':'var(--re)'}">${totalW.toFixed(2)}</span> ${wOk?'✓':'⚠ должно быть 1.00'}</b>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Канал</th><th>Цель</th><th>Ставка ₽</th><th>В KPI</th><th>Вес</th><th>×KPI</th></tr></thead>
+      <tbody>
+      ${Object.entries(sc).map(([k,c])=>`<tr>
+        <td class="fw6">${c.name}</td>
+        <td><input type="number" value="${tg[k]||0}" onchange="updTarget('${selMid}','${k}',this.value)" style="width:60px;padding:3px 6px;font-size:12px"/></td>
+        <td>${k==='cennik'?`<span class="xs mu">5 000 фикса</span>`:`<input type="number" value="${c.rate}" onchange="updSchema('${selMid}','${k}','rate',this.value)" style="width:75px;padding:3px 6px;font-size:12px"/>`}</td>
+        <td style="text-align:center"><input type="checkbox" ${c.includeInKpi?'checked':''} onchange="updSchema('${selMid}','${k}','includeInKpi',this.checked)"/></td>
+        <td>${c.includeInKpi?`<input type="number" step="0.05" value="${c.weight}" onchange="updSchema('${selMid}','${k}','weight',this.value)" style="width:55px;padding:3px 6px;font-size:12px"/>`:`<span class="xs mu">—</span>`}</td>
+        <td style="text-align:center">${k==='cennik'?`<span class="xs mu">—</span>`:`<input type="checkbox" ${c.includeInEarn?'checked':''} onchange="updSchema('${selMid}','${k}','includeInEarn',this.checked)"/>`}</td>
+      </tr>`).join('')}
+      </tbody>
+    </table></div>
+    <div class="flex g8 mt12">
+      <button class="btn pr sm" onclick="copySchemaToAll('${selMid}')">Применить ко всем месяцам</button>
+      <button class="btn sm" onclick="updMonthDays('${selMid}',prompt('Дней в ${m.name}:',${m.days}))">Дней: ${m.days}</button>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="sh">Пользователи</div>
+  <table>
+    <thead><tr><th>Имя</th><th>Логин</th><th>Роль</th><th></th></tr></thead>
+    <tbody>
+    ${S.users.map(u=>`<tr>
+      <td><div class="flex ia g6">${avHtml(u.av,24)}<span>${u.name}</span></div></td>
+      <td class="mono">${u.login}</td>
+      <td><span class="bdg ${u.role==='admin'?'bb':'bg'}">${u.role==='admin'?'РОП/СМОП':'МОП'}</span></td>
+      <td>${u.id!=='admin'?`<button class="btn dg sm" onclick="removeUser('${u.id}')">✕</button>`:''}</td>
+    </tr>`).join('')}
+    </tbody>
+  </table>
+  <button class="btn pr sm mt12" onclick="openModal('addUser',{})">＋ Добавить сотрудника</button>
+</div>
+</div>`;
+}
+
+// ─── MANAGER VIEW ───────────────────────────────────────
+function renderManager(){
+  const u=S.user;
+  const mgrNav=[{id:'deals',ico:'📋',lbl:'Мои выдачи'},{id:'stats',ico:'📊',lbl:'Статистика'},{id:'forecast',ico:'🎯',lbl:'Прогноз'}]
+    .map(t=>`<div class="ni${mgrTab===t.id?' on':''}" onclick="setMgrTabFn('${t.id}')"><span class="ni-ico">${t.ico}</span>${t.lbl}</div>`).join('');
+  const m=S.months.find(x=>x.id===selMid)||S.months[0];
+  if(!m){R(shell(mgrNav,'<div class="al wa">Нет месяцев. Обратитесь к руководителю.</div>'));return;}
+  const day=dayNowFor(selMid);
+  const deals=getDeals(u.id,selMid);
+  const s=calcSt(deals,m,day);
+  let c='';
+  if(mgrTab==='deals')c=mgrDeals(u,m,deals,s,day);
+  if(mgrTab==='stats')c=mgrStats(u,m,s,day);
+  if(mgrTab==='forecast')c=mgrForecast(u,m,s,day);
+  R(shell(mgrNav,c));
+}
+
+// ─── MGR DEALS ──────────────────────────────────────────
+function mgrDeals(u,m,deals,s,day){
+  const kpiRows=Object.entries(m.schema).filter(([,c])=>c.includeInKpi).map(([k,c])=>{
+    const v=s.counts[k],t=m.targets[k]||0;
+    return `<div class="mb8"><div class="flex jb xs mb8"><span class="fw6">${c.name}</span>
+      <span style="color:${barC(pct(v,t))}">${v}/${t} — ${pct(v,t)}% <span class="mu">(вес ${c.weight})</span></span></div>
+      <div class="pb"><div class="pf" style="width:${pct(v,t)}%;background:${barC(pct(v,t))}"></div></div></div>`;
+  }).join('');
+
+  return `
+<div class="g4 mb14">
+  <div class="met"><div class="lb">Сделок</div><div class="vl" style="color:${barC(pct(s.kpiIronCount,m.targets.iron))}">${s.kpiIronCount}/${m.targets.iron}</div></div>
+  <div class="met"><div class="lb">KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
+  <div class="met"><div class="lb">База (до KPI)</div><div class="vl">${fmt(s.earnBase)} ₽</div></div>
+  <div class="met"><div class="lb">ЗП итого</div><div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div></div>
+</div>
+<div class="g2 mb14">
+  <div class="card">
+    <div class="sh">KPI — ${m.name}</div>
+    ${kpiRows}
+    <div class="dv"></div>
+    <div class="flex jb fw6"><span>KPI итог:</span><span style="color:${kpiC(s.kpi)};font-size:18px">${fmtKpi(s.kpi)}</span></div>
+  </div>
+  <div class="card">
+    <div class="sh">Расчёт ЗП</div>
+    <div class="xs" style="color:var(--mu);line-height:2.2">
+      ${Object.entries(m.schema).filter(([,c])=>c.includeInEarn).map(([k,c])=>{
+        const v=s.counts[k],e=v*c.rate;
+        return `${c.name}: <b style="color:var(--tx)">${v}</b>×${fmt(c.rate)}₽ = <b>${fmt(e)}₽</b><br>`;
+      }).join('')}
+      База: <b style="color:var(--tx)">${fmt(s.earnBase)}</b> × KPI <b style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</b> = <b>${fmt(Math.round(s.earnBase*s.kpi))}₽</b><br>
+      ${s.earnFixed?`+ Ценники (фикса): <b style="color:var(--ye)">${fmt(s.earnFixed)} ₽</b><br>`:''}
+      <div class="dv"></div>
+      <b style="color:var(--gr);font-size:16px">= ${fmt(s.totalZP)} ₽</b>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="flex ia jb mb12">
+    <div class="sh" style="margin-bottom:0">Выдачи — ${m.name} (${deals.length})</div>
+    <button class="btn pr sm" onclick="openModal('deal',{uid:'${u.id}',mid:'${selMid}'})">＋ Добавить выдачу</button>
+  </div>
+  ${deals.length?`<div class="sc tw"><table>
+    <thead><tr><th>#</th><th>Дата</th><th>Марка</th><th>Модель</th><th>VIN</th><th>Год</th>
+      ${Object.entries(m.schema).map(([,c])=>`<th>${c.name}</th>`).join('')}<th></th>
+    </tr></thead>
+    <tbody>
+    ${[...deals].sort((a,b)=>b.date.localeCompare(a.date)).map((d,i)=>`<tr>
+      <td class="mu xs">${i+1}</td><td>${d.date}</td>
+      <td class="fw6">${d.brand||'—'}</td><td>${d.model||'—'}</td>
+      <td class="mono">${d.vin||'—'}</td><td>${d.year||'—'}</td>
+      ${Object.keys(m.schema).map(k=>`<td style="text-align:center">${badgeDeal(d[k])}</td>`).join('')}
+      <td><div class="flex g6">
+        <button class="btn sm" onclick="openModal('deal',{uid:'${u.id}',mid:'${selMid}',id:'${d.id}'})">✏</button>
+        <button class="btn dg sm" onclick="delDeal('${u.id}','${selMid}','${d.id}')">✕</button>
+      </div></td>
+    </tr>`).join('')}
+    </tbody>
+  </table></div>`:`<div style="text-align:center;color:var(--mu);padding:30px">Нет выдач в ${m.name}. Добавь первую!</div>`}
+</div>`;
+}
+
+// ─── MGR STATS ──────────────────────────────────────────
+function mgrStats(u,m,s,day){
+  const all=allDealsOf(u.id);
+  const allSt=S.months.map(mo=>{const ds=getDeals(u.id,mo.id);const st=calcSt(ds,mo,mo.id===selMid?day:null);return{...st,name:mo.name.slice(0,3),target:mo.targets.iron,month:mo,id:mo.id};});
+
+  // Фильтр: все данные или конкретный месяц
+  const filteredDeals=statsFilter==='all'?all:all.filter(d=>d._mid===statsFilter);
+  const brands=brandTop(filteredDeals);
+  const yrs=yearGroups(filteredDeals);
+  const maxV=Math.max(...allSt.map(x=>x.counts.iron),m.targets.iron,1);
+
+  return `
+<div class="flex ia jb mb14">
+  <div class="sh" style="margin-bottom:0">Статистика</div>
+  <div class="stab">
+    <button class="stab-btn${statsFilter==='all'?' on':''}" onclick="statsFilter='all';renderManager()">Все месяцы</button>
+    ${S.months.map(mo=>`<button class="stab-btn${statsFilter===mo.id?' on':''}" onclick="statsFilter='${mo.id}';renderManager()">${mo.name}</button>`).join('')}
+  </div>
+</div>
+
+<div class="g4 mb14">
+  <div class="met"><div class="lb">Сделок</div><div class="vl">${filteredDeals.filter(d=>d.iron).length}</div></div>
+  <div class="met"><div class="lb">Кредитов</div><div class="vl">${filteredDeals.filter(d=>d.credit).length}</div></div>
+  <div class="met"><div class="lb">Трейд-ин</div><div class="vl">${filteredDeals.filter(d=>d.exchange).length}</div></div>
+  <div class="met"><div class="lb">Брокерских</div><div class="vl">${filteredDeals.filter(d=>d.broker).length}</div></div>
+</div>
+
+<div class="g2 mb14">
+  <div class="card">
+    <div class="sh">Сделки по месяцам</div>
+    <div class="bc" style="height:120px">
+      ${allSt.map(ms=>{
+        const h=Math.round(ms.counts.iron/maxV*95)+2,th=Math.round(ms.target/maxV*95)+2;
+        const col=ms.counts.iron>=ms.target?'var(--gr)':ms.counts.iron>=ms.target*.7?'var(--ye)':'var(--re)';
+        return `<div class="bc-col" style="cursor:pointer" onclick="statsFilter='${ms.id}';renderManager()">
+          <div class="xs fw6" style="color:${col}">${ms.counts.iron}</div>
+          <div style="display:flex;align-items:flex-end;gap:2px;height:95px;${statsFilter===ms.id?'filter:brightness(1.3)':''}">
+            <div class="bc-fill" style="background:${col};height:${h}px;flex:1"></div>
+            <div class="bc-fill" style="background:var(--bd2);height:${th}px;flex:1"></div>
+          </div>
+          <div style="font-size:10px;color:${statsFilter===ms.id?'var(--ac)':'var(--mu)'}">${ms.name}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="flex g12 xs mu mt8"><span>█ Факт</span><span style="color:var(--bd2)">█ Цель</span></div>
+  </div>
+  <div class="card">
+    <div class="sh">KPI по месяцам</div>
+    ${allSt.map(ms=>`<div class="flex ia jb" style="padding:6px 0;border-bottom:1px solid var(--bd)">
+      <span class="sm">${ms.month.name}</span>
+      <div class="flex ia g8">
+        <div style="width:80px;height:5px;background:var(--s3);border-radius:3px"><div style="width:${Math.min(ms.kpi*100,100)}%;height:100%;border-radius:3px;background:${kpiC(ms.kpi)}"></div></div>
+        <span class="fw6" style="color:${kpiC(ms.kpi)};min-width:36px;text-align:right">${fmtKpi(ms.kpi)}</span>
+      </div>
+    </div>`).join('')}
+  </div>
+</div>
+
+<div class="g2 mb14">
+  <div class="card">
+    <div class="sh">Мои навыки${statsFilter==='all'?' (все месяцы)':' ('+S.months.find(x=>x.id===statsFilter)?.name+')'}</div>
+    ${(()=>{
+      const src=statsFilter==='all'?allSt.filter(ms=>!dayNowFor(ms.month.id)):[allSt.find(ms=>ms.id===statsFilter)].filter(Boolean);
+      if(!src.length)return'<div class="xs mu">Нет данных</div>';
+      const n=src.length;
+      const skills=[
+        {l:'Железо',v:Math.round(src.reduce((a,x)=>a+pct(x.counts.iron,x.target),0)/n),desc:'% выполнения плана'},
+        {l:'Кредит',v:Math.round(src.reduce((a,x)=>a+pct(x.counts.credit,x.month.targets.credit||8),0)/n),desc:'% выполнения'},
+        {l:'Трейд-ин',v:Math.round(src.reduce((a,x)=>a+pct(x.counts.exchange,x.month.targets.exchange||7),0)/n),desc:'% выполнения'},
+        {l:'Брокер',v:Math.min(Math.round(src.reduce((a,x)=>a+x.counts.broker,0)/n/3*100),120),desc:'шт. в среднем'},
+        {l:'ПТЗ',v:Math.round(src.reduce((a,x)=>a+pct(x.counts.ptz,x.month.targets.ptz||4),0)/n),desc:'% выполнения'},
+        {l:'KPI',v:Math.round(src.reduce((a,x)=>a+x.kpi,0)/n*100),desc:'средний'},
+      ];
+      return skills.map(sk=>`<div class="flex ia jb" style="padding:7px 0;border-bottom:1px solid var(--bd)">
+        <div><span class="sm fw6">${sk.l}</span><span class="xs mu" style="margin-left:6px">${sk.desc}</span></div>
+        <div class="flex ia g8">
+          <div style="width:90px;height:5px;background:var(--s3);border-radius:3px"><div style="width:${Math.min(sk.v,100)}%;height:100%;border-radius:3px;background:${barC(sk.v)}"></div></div>
+          <span class="bdg ${sk.v>=100?'bg':sk.v>=70?'by':'br'}" style="min-width:38px;text-align:center">${sk.v}%</span>
+        </div>
+      </div>`).join('');
+    })()}
+  </div>
+  <div class="card">
+    <div class="sh">Топ марок</div>
+    ${brands.length?brands.slice(0,8).map(([b,c])=>`<div class="mb8">
+      <div class="flex jb xs mb8"><span>${b}</span><span class="fw6">${c}</span></div>
+      <div class="pb"><div class="pf" style="width:${filteredDeals.length?Math.round(c/filteredDeals.filter(d=>d.iron).length*100):0}%;background:var(--ac)"></div></div>
+    </div>`).join(''):'<div class="xs mu">Нет данных</div>'}
+  </div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="sh">Год выпуска авто</div>
+    ${yrs.map(([g,c])=>`<div class="mb8">
+      <div class="flex jb xs mb8"><span>${g}</span><span class="fw6">${c} шт. (${filteredDeals.length?Math.round(c/filteredDeals.length*100):0}%)</span></div>
+      <div class="pb"><div class="pf" style="width:${filteredDeals.length?Math.round(c/filteredDeals.length*100):0}%;background:var(--pu)"></div></div>
+    </div>`).join('')||'<div class="xs mu">Нет данных</div>'}
+  </div>
+  <div class="card">
+    <div class="sh">Каналы — сводка</div>
+    ${[['iron','Железо','var(--ac)'],['credit','Кредит','var(--gr)'],['exchange','Трейд-ин','var(--or)'],['broker','Брокер','var(--ye)'],['ptz','ПТЗ','var(--pu)'],['cennik','Ценник','var(--ye)'],['interact','Интерактив','var(--pi)']].map(([k,l,col])=>{
+      const cnt=filteredDeals.filter(d=>d[k]).length;
+      const total=filteredDeals.filter(d=>d.iron).length||1;
+      return `<div class="flex ia jb" style="padding:6px 0;border-bottom:1px solid var(--bd)">
+        <span class="sm">${l}</span>
+        <div class="flex ia g8">
+          <div style="width:70px;height:5px;background:var(--s3);border-radius:3px"><div style="width:${Math.round(cnt/total*100)}%;height:100%;border-radius:3px;background:${col}"></div></div>
+          <span class="fw6 sm">${cnt} <span class="xs mu">(${Math.round(cnt/total*100)}%)</span></span>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>
+</div>`;
+}
+
+// ─── MGR FORECAST ───────────────────────────────────────
+function mgrForecast(u,m,s,day){
+  const isCurrentMonth=!!day;
+  if(!isCurrentMonth)return`<div class="card"><div style="text-align:center;color:var(--mu);padding:30px">
+    <div style="font-size:32px;margin-bottom:10px">🎯</div>
+    Прогноз доступен только для текущего месяца<br>
+    <span class="xs">Выберите актуальный месяц вверху</span>
+  </div></div>`;
+
+  const rem=m.days-day;
+  const needPerDay=rem>0?((m.targets.iron-s.kpiIronCount)/rem):0;
+  const onTrack=s.fc.iron>=m.targets.iron;
+
+  return `
+<div class="al ${onTrack?'su':'inf'} mb14">
+  📅 День <b>${day}</b> из <b>${m.days}</b> · Осталось <b>${rem}</b> дней · Коэф. ×${(m.days/day).toFixed(2)}
+  ${onTrack?` · <b>✓ На пути к выполнению плана!</b>`:` · <b>Нужно ${Math.ceil(needPerDay*10)/10} сделок/день</b>`}
+</div>
+
+<div class="g4 mb14">
+  <div class="met"><div class="lb">Прогноз сделок</div><div class="vl" style="color:${s.fc.iron>=m.targets.iron?'var(--gr)':'var(--or)'}">${Math.round(s.fc.iron)}</div><div class="sb2">из ${m.targets.iron}</div></div>
+  <div class="met"><div class="lb">Прогноз KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
+  <div class="met"><div class="lb">Прогноз ЗП</div><div class="vl" style="color:var(--gr)">${fmt(s.fc.zp)} ₽</div></div>
+  <div class="met"><div class="lb">Нужно/день</div><div class="vl" style="color:${needPerDay>2?'var(--re)':needPerDay>1?'var(--or)':'var(--gr)'}">${needPerDay>0?needPerDay.toFixed(1):'✓'}</div></div>
+</div>
+
+<div class="card mb14">
+  <div class="sh">Прогресс с прогнозом</div>
+  ${Object.entries(m.schema).filter(([,c])=>c.includeInKpi).map(([k,c])=>
+    foreBar(c.name,s.counts[k],s.fc[k],m.targets[k]||1)).join('')}
+</div>
+
+<div class="g2 mb14">
+  ${[
+    {l:'Сделок до цели',need:Math.max(0,m.targets.iron-s.kpiIronCount),hint:`${needPerDay>0?needPerDay.toFixed(1)+' сделок/день':'✓ план перекрыт'}`,col:'var(--ac)'},
+    {l:'Кредитов до цели',need:Math.max(0,(m.targets.credit||8)-s.counts.credit),hint:'Предлагай кредит каждому',col:'var(--ac)'},
+    {l:'Трейд-ин до цели',need:Math.max(0,(m.targets.exchange||7)-s.counts.exchange),hint:'Спрашивай про обмен первым',col:'var(--or)'},
+    {l:'ПТЗ до цели',need:Math.max(0,(m.targets.ptz||4)-s.counts.ptz),hint:'Проверяй ПТЗ каждый раз',col:'var(--pu)'},
+  ].map(x=>`<div class="card" style="border-left:3px solid ${x.col}">
+    <div class="xs mu mb8">${x.l}</div>
+    <div style="font-size:28px;font-weight:700;font-family:'Bebas Neue';color:${x.col}">${x.need===0?'✓ ПЛАН':'+'+x.need}</div>
+    <div class="xs mu mt8">${x.hint}</div>
+  </div>`).join('')}
+</div>
+
+<div class="card">
+  <div class="sh">Декомпозиция ЗП (прогноз)</div>
+  <div class="xs" style="color:var(--mu);line-height:2.2">
+    ${Object.entries(m.schema).filter(([,c])=>c.includeInEarn).map(([k,c])=>{
+      const fcV=Math.round(s.fc[k]),earn=fcV*c.rate;
+      return `${c.name}: <b style="color:var(--tx)">${fcV}</b>×${fmt(c.rate)}₽ = <b>${fmt(earn)}₽</b><br>`;
+    }).join('')}
+    База прогноз: <b>${fmt(s.fc.earnBase)} ₽</b> × KPI <b style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</b> = <b>${fmt(Math.round(s.fc.earnBase*s.kpi))}₽</b><br>
+    ${s.earnFixed?`+ Ценники: <b style="color:var(--ye)">${fmt(s.earnFixed)} ₽</b><br>`:''}
+    <div class="dv"></div>
+    <b style="color:var(--gr);font-size:16px">= ${fmt(s.fc.zp)} ₽</b>
+  </div>
+</div>`;
+}
+
+// ─── MODAL ──────────────────────────────────────────────
+function renderModal(){
+  if(!modal)return'';
+  const{type,data}=modal;
+
+  if(type==='deal'){
+    const{uid,mid}=data;
+    const existId=data.id||null;
+    const m=S.months.find(x=>x.id===mid);if(!m)return'';
+    const deals=getDeals(uid,mid);
+    const d=existId?deals.find(x=>x.id===existId):null;
+    const chColors={iron:'',ptz:'pu',credit:'gr',exchange:'or',broker:'or',cennik:'ye',interact:'pi'};
+    return `<div class="mo" id="moOvl">
+<div class="mb" onclick="event.stopPropagation()">
+  <div class="mt2">${d?'Редактировать':'Новая выдача'} — ${m.name}</div>
+  <div class="g2">
+    <div class="fl"><label>Дата</label><input type="date" id="fd_date" value="${d?d.date:new Date().toISOString().slice(0,10)}"/></div>
+    <div class="fl"><label>Год выпуска</label><input id="fd_year" placeholder="2020" value="${d?d.year||'':''}"/></div>
+  </div>
+  <div class="g2">
+    <div class="fl"><label>Марка</label><input id="fd_brand" placeholder="Toyota" value="${d?d.brand||'':''}"/></div>
+    <div class="fl"><label>Модель</label><input id="fd_model" placeholder="Camry" value="${d?d.model||'':''}"/></div>
+  </div>
+  <div class="fl"><label>VIN-код</label><input id="fd_vin" placeholder="JT2BF12K1Y0012345" value="${d?d.vin||'':''}" style="font-family:monospace"/></div>
+  <div class="fl"><label>Каналы</label>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+      ${Object.entries(m.schema).map(([k,c])=>{
+        const isOn=d?!!d[k]:k==='iron';
+        const cls=chColors[k]||'';
+        return `<button id="ch_${k}" class="ch${isOn?' on':''}${isOn&&cls?' '+cls:''}" onclick="toggleCh('${k}','${cls}')">${c.name}</button>`;
+      }).join('')}
+    </div>
+  </div>
+  <div class="flex g8 mt14">
+    <button class="btn pr f1 jc" onclick="saveDeal('${uid}','${mid}','${existId||''}')">
+      ${d?'Сохранить':'Добавить выдачу'}
+    </button>
+    <button class="btn" onclick="closeModal()">Отмена</button>
+  </div>
+</div></div>`;
+  }
+
+  if(type==='addUser'){
+    return `<div class="mo" id="moOvl">
+<div class="mb" onclick="event.stopPropagation()">
+  <div class="mt2">Новый сотрудник</div>
+  <div class="fl"><label>Полное имя</label><input id="nu_name" placeholder="Иванов Иван"/></div>
+  <div class="g2">
+    <div class="fl"><label>Логин</label><input id="nu_login" placeholder="ivanov"/></div>
+    <div class="fl"><label>Пароль</label><input id="nu_pass" placeholder="12345"/></div>
+  </div>
+  <div class="fl"><label>Роль</label>
+    <select id="nu_role"><option value="manager">МОП (Менеджер)</option><option value="admin">РОП/СМОП</option></select>
+  </div>
+  <div class="flex g8 mt14">
+    <button class="btn pr f1 jc" onclick="saveNewUser()">Добавить</button>
+    <button class="btn" onclick="closeModal()">Отмена</button>
+  </div>
+</div></div>`;
+  }
+  return'';
+}
+
+function bindEvents(){
+  const ovl=$('moOvl');
+  if(ovl)ovl.onclick=e=>{if(e.target===ovl)closeModal();};
+}
+
+// ─── ACTIONS ────────────────────────────────────────────
+function doLogin(){
+  const login=($('li')||{}).value?.trim();
+  const pass=($('lp')||{}).value?.trim();
+  const u=S.users.find(x=>x.login===login&&x.pass===pass);
+  if(!u){renderLogin('Неверный логин или пароль');return;}
+  S.user=u;initSelMid();save();go();
+}
+function doLogout(){S.user=null;save();renderLogin();}
+function go(){
+  if(!S.user){renderLogin();return;}
+  if(S.user.role==='admin')renderAdmin();
+  else renderManager();
+}
+function setTab(t){uiTab=t;selMgr=null;renderAdmin();}
+function setMid(id){selMid=id;go();}
+function setMgrTabFn(t){mgrTab=t;renderManager();}
+function viewMgr(id){selMgr=id;uiTab='managers';renderAdmin();}
+function openModal(type,data){modal={type,data};go();}
+function closeModal(){modal=null;go();}
+
+function toggleCh(k,cls){
+  const btn=$('ch_'+k);if(!btn)return;
+  const on=btn.classList.contains('on');
+  btn.classList.toggle('on',!on);
+  if(cls)btn.classList.toggle(cls,!on);
+}
+
+function saveDeal(uid,mid,existId){
+  const brand=($('fd_brand')||{}).value?.trim()||'';
+  const model=($('fd_model')||{}).value?.trim()||'';
+  if(!brand&&!model){alert('Укажи марку или модель');return;}
+  const m=S.months.find(x=>x.id===mid);if(!m)return;
+  const deal={
+    id:existId||('d'+Date.now()),
+    date:$('fd_date')?.value||'',
+    brand,model,
+    vin:$('fd_vin')?.value?.trim()||'',
+    year:$('fd_year')?.value?.trim()||'',
+  };
+  Object.keys(m.schema).forEach(k=>{deal[k]=$('ch_'+k)?.classList.contains('on')||false;});
+  if(!S.deals[uid])S.deals[uid]={};
+  if(!S.deals[uid][mid])S.deals[uid][mid]=[];
+  if(existId){S.deals[uid][mid]=S.deals[uid][mid].map(d=>d.id===existId?deal:d);}
+  else{S.deals[uid][mid].push(deal);}
+  modal=null;save();go();
+}
+
+function delDeal(uid,mid,id){
+  if(!confirm('Удалить выдачу?'))return;
+  if(S.deals[uid]?.[mid])S.deals[uid][mid]=S.deals[uid][mid].filter(d=>d.id!==id);
+  save();go();
+}
+
+function saveNewUser(){
+  const name=$('nu_name')?.value?.trim();
+  const login=$('nu_login')?.value?.trim();
+  const pass=$('nu_pass')?.value?.trim();
+  const role=$('nu_role')?.value||'manager';
+  if(!name||!login||!pass){alert('Заполни все поля');return;}
+  if(S.users.find(u=>u.login===login)){alert('Логин занят');return;}
+  const av=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  S.users.push({id:'u'+Date.now(),name,login,pass,role,av});
+  modal=null;save();go();
+}
+
+function removeUser(id){
+  if(!confirm('Удалить сотрудника?'))return;
+  S.users=S.users.filter(u=>u.id!==id);
+  save();go();
+}
+
+function updSchema(mid,k,field,val){
+  S.months=S.months.map(m=>{
+    if(m.id!==mid)return m;
+    const sc={...m.schema,[k]:{...m.schema[k]}};
+    if(field==='weight')sc[k][field]=parseFloat(val)||0;
+    else if(field==='rate')sc[k][field]=parseFloat(val)||0;
+    else sc[k][field]=val===true||val==='true'?true:val===false||val==='false'?false:val;
+    return{...m,schema:sc};
+  });
+  save();renderAdmin();
+}
+
+function updTarget(mid,k,val){
+  S.months=S.months.map(m=>m.id!==mid?m:{...m,targets:{...m.targets,[k]:Number(val)||0}});
+  save();renderAdmin();
+}
+
+function updMonthDays(mid,val){
+  if(val===null)return;
+  S.months=S.months.map(m=>m.id===mid?{...m,days:Number(val)||30}:m);
+  save();renderAdmin();
+}
+
+function copySchemaToAll(mid){
+  const src=S.months.find(x=>x.id===mid);if(!src)return;
+  S.months=S.months.map(m=>m.id===mid?m:{...m,schema:JSON.parse(JSON.stringify(src.schema))});
+  save();renderAdmin();alert('Формула скопирована во все месяцы');
+}
+
+function addMonth(){
+  const name=prompt('Название месяца (например: Июль)');if(!name)return;
+  const id='m_'+Date.now();
+  const last=S.months[S.months.length-1]||{targets:{iron:20,credit:8,exchange:7,ptz:4,broker:0,cennik:0,interact:0},schema:KPI_SCHEMA_DEFAULT};
+  S.months.push({id,name,days:30,targets:{...last.targets},schema:JSON.parse(JSON.stringify(last.schema))});
+  selMid=id;save();go();
+}
+
+loadFromFirebase().then(()=>{
+  initSelMid();
+  go();
+  startRealtimeSync();
+});
+</script>
+</body>
+</html>
+HTMLEOF
+echo "OK: $(wc -c < /home/claude/fresh_auto_crm_v2.html) bytes"
