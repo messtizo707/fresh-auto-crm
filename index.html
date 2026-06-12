@@ -23,13 +23,14 @@ html,body{min-height:100vh;font-family:'Onest',sans-serif;background:var(--bg);c
 .sb-foot{padding:12px 16px;border-top:1px solid var(--bd);margin-top:auto}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .topbar{padding:11px 22px;border-bottom:1px solid var(--bd);background:var(--s1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap}
-.content{flex:1;padding:18px 22px;overflow-y:auto}
+.content{flex:1;padding:18px 22px;overflow-y:auto;overflow-x:hidden;min-width:0}
 .mtabs{display:flex;gap:4px;flex-wrap:wrap}
 .mt{padding:4px 12px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Onest';font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .mt.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
 .mt:hover:not(.on){border-color:var(--bd2);color:var(--tx)}
 .card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:16px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:900px){.g2,.g3,.g4,.g5{grid-template-columns:1fr!important}}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
@@ -561,7 +562,7 @@ ${day?`<div class="al inf mb14">📅 День ${day}/${m.days} · Прогноз
     ${risks.map(r=>`<div class="risk-card risk-${r.lvl}">
       <span class="xs fw6">${r.lvl==='high'?'🔴':r.lvl==='med'?'🟡':'🟢'} ${r.text}</span>
     </div>`).join('')}
-    ${(idle>=5 || s.kpi < expectedKpi*0.5)?`<div class="mt12">
+    ${(idle>=5 || s.kpi < expectedKpi*0.4 || (s.kpiIronCount===0 && day>=5))?`<div class="mt12">
       <div class="xs fw6 mb8" style="color:var(--or)">Рекомендации:</div>
       <div class="xs mu" style="line-height:1.8">
         ${idle>=3?'• Требуется встреча — обсудить причины простоя<br>':''}
@@ -642,14 +643,14 @@ ${day?`<div class="al inf mb14">📅 День ${day}/${m.days} · Прогноз
   <div class="sh">Сделки — ${m.name} (${deals.length})</div>
   ${deals.length?`<div class="sc tw"><table>
     <thead><tr><th>#</th><th>Дата</th><th>Марка</th><th>Модель</th><th>VIN</th><th>Год</th>
-      ${Object.entries(m.schema).map(([,c])=>`<th>${c.name}</th>`).join('')}
+      ${Object.entries(m.schema).filter(([,c])=>c.includeInKpi||c.includeInEarn||c.fixedRate).map(([,c])=>`<th>${c.name}</th>`).join('')}
     </tr></thead>
     <tbody>
     ${[...deals].sort((a,b)=>b.date.localeCompare(a.date)).map((d,i)=>`<tr>
       <td class="mu xs">${i+1}</td><td>${d.date}</td>
       <td class="fw6">${d.brand||'—'}</td><td>${d.model||'—'}</td>
       <td class="mono">${d.vin||'—'}</td><td>${d.year||'—'}</td>
-      ${Object.keys(m.schema).map(k=>`<td style="text-align:center">${badgeDeal(d[k])}</td>`).join('')}
+      ${Object.entries(m.schema).filter(([,c])=>c.includeInKpi||c.includeInEarn||c.fixedRate).map(([k])=>`<td style="text-align:center">${badgeDeal(d[k])}</td>`).join('')}
     </tr>`).join('')}
     </tbody>
   </table></div>`:'<div class="xs mu" style="text-align:center;padding:24px">Нет сделок в этом месяце</div>'}
@@ -675,7 +676,14 @@ function adminAnalytics(){
   const sorted=[...rows].sort((a,b)=>b.s.kpi-a.s.kpi);
 
   // Кто нуждается в проработке
-  const needAttention=rows.filter(r=>r.idle>=3||r.s.kpi<0.6);
+  const monthProgress = day ? day/m.days : 1;
+  const needAttention = rows.filter(r => {
+  const expectedKpi = monthProgress;
+  const idleCritical = r.idle >= 5;
+  const kpiCritical = r.s.kpi < expectedKpi * 0.4; // сильно отстаёт от темпа
+  const noDealsAtAll = r.s.kpiIronCount === 0 && day >= 5; // вообще нет сделок после 5го числа
+  return idleCritical || kpiCritical || noDealsAtAll;
+});
 
   return `
 <div class="card mb14">
