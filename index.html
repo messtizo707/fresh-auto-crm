@@ -234,7 +234,9 @@ Object.entries(sc).forEach(([k,cfg])=>{
   const coef=days>0?m.days/days:1;
   const fc={};
   Object.keys(counts).forEach(k=>fc[k]=counts[k]*coef);
-  fc.zp=Math.round(earnBase*coef*kpi+earnFixed);
+  const kpiForFcZP = Math.max(kpi, 0.60);
+fc.zp = Math.round(earnBase*coef*kpiForFcZP+earnFixed);
+fc.zpReal = Math.round(earnBase*coef*kpi+earnFixed);
   fc.earnBase=Math.round(earnBase*coef);
   return { counts, kpiIronCount, kpi, earnBase, earnFixed, totalZP, totalZPReal, fc, schema: sc, targets: tg };
 }
@@ -502,15 +504,29 @@ function adminMgrDetail(uid){
 
   // Risk assessment
   const risks=[];
-  if(idle>=3)risks.push({lvl:'high',text:`Простой ${idle} дней — нет выдач`});
-  if(s.kpi<0.5)risks.push({lvl:'high',text:`KPI критически низкий: ${fmtKpi(s.kpi)}`});
-  else if(s.kpi<0.8)risks.push({lvl:'med',text:`KPI ниже нормы: ${fmtKpi(s.kpi)}`});
-  const crPct=pct(s.counts.credit,m.targets.credit||8);
-  if(crPct<50)risks.push({lvl:'med',text:`Кредит выполнен на ${crPct}%`});
-  const exPct=pct(s.counts.exchange,m.targets.exchange||7);
-  if(exPct<50)risks.push({lvl:'med',text:`Трейд-ин выполнен на ${exPct}%`});
-  if(risks.length===0)risks.push({lvl:'ok',text:'Показатели в норме'});
+  const monthProgress = day ? day/m.days : 1; // сколько месяца прошло (0..1)
+const expectedIron = Math.round(m.targets.iron * monthProgress);
+const expectedCredit = Math.round((m.targets.credit||8) * monthProgress);
+const expectedExchange = Math.round((m.targets.exchange||7) * monthProgress);
 
+// Простой — критично только если > 5 дней или > 30% месяца без выдач
+if(idle>=5) risks.push({lvl:'high', text:`Простой ${idle} дней — нет выдач`});
+else if(idle>=3) risks.push({lvl:'med', text:`${idle} дня без выдач`});
+
+// KPI — сравниваем с ожидаемым темпом, а не с финальным планом
+const expectedKpi = monthProgress * 1.0; // ожидаемый KPI на текущий момент
+if(s.kpi < expectedKpi * 0.5) risks.push({lvl:'high', text:`KPI сильно отстаёт от темпа: ${fmtKpi(s.kpi)}`});
+else if(s.kpi < expectedKpi * 0.75) risks.push({lvl:'med', text:`KPI немного ниже темпа: ${fmtKpi(s.kpi)}`});
+
+// Сделки — отстаёт ли от ожидаемого темпа
+if(s.kpiIronCount < expectedIron * 0.5) risks.push({lvl:'high', text:`Сделок ${s.kpiIronCount} при ожидаемых ${expectedIron} на д.${day}`});
+else if(s.kpiIronCount < expectedIron * 0.75) risks.push({lvl:'med', text:`Сделок чуть меньше темпа: ${s.kpiIronCount}/${expectedIron} ожид.`});
+
+// Кредит и обмен — только если серьёзное отставание от темпа
+if(s.counts.credit < expectedCredit * 0.5 && expectedCredit > 0) risks.push({lvl:'med', text:`Кредит отстаёт: ${s.counts.credit} при ожидаемых ${expectedCredit}`});
+if(s.counts.exchange < expectedExchange * 0.5 && expectedExchange > 0) risks.push({lvl:'med', text:`Трейд-ин отстаёт: ${s.counts.exchange} при ожидаемых ${expectedExchange}`});
+
+if(risks.length===0) risks.push({lvl:'ok', text:`Всё в норме — идёт по плану (день ${day}/${m.days})`});
   return `
 <button class="btn gh sm mb14" onclick="selMgr=null;renderAdmin()">← Назад</button>
 <div class="flex ia g12 mb14">${avHtml(u.av,46)}
@@ -531,9 +547,11 @@ function adminMgrDetail(uid){
   <div class="met"><div class="lb">Сделок (${m.name})</div><div class="vl">${s.kpiIronCount}/${m.targets.iron}</div></div>
   <div class="met"><div class="lb">KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
   <div class="met"><div class="lb">База заработка</div><div class="vl">${fmt(s.earnBase)} ₽</div></div>
-  <div class="met"><div class="lb">ЗП к выплате (мин 60%)</div><div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div>
-<div class="sb2" style="color:var(--mu)">По факту KPI: ${fmt(s.totalZPReal)} ₽</div></div>
+  <div class="met"><div class="lb">ЗП к выплате</div>
+  <div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div>
+  <div class="sb2" style="color:var(--mu)">Факт KPI: <b style="color:${s.totalZPReal<s.totalZP?'var(--or)':'var(--gr)'}">${fmt(s.totalZPReal)} ₽</b></div>
 </div>
+
 
 ${day?`<div class="al inf mb14">📅 День ${day}/${m.days} · Прогноз сделок: <b>${Math.round(s.fc.iron)}</b> · Прогноз ЗП: <b>${fmt(s.fc.zp)} ₽</b></div>`:''}
 
@@ -543,7 +561,7 @@ ${day?`<div class="al inf mb14">📅 День ${day}/${m.days} · Прогноз
     ${risks.map(r=>`<div class="risk-card risk-${r.lvl}">
       <span class="xs fw6">${r.lvl==='high'?'🔴':r.lvl==='med'?'🟡':'🟢'} ${r.text}</span>
     </div>`).join('')}
-    ${idle>=3||s.kpi<0.7?`<div class="mt12">
+    ${(idle>=5 || s.kpi < expectedKpi*0.5)?`<div class="mt12">
       <div class="xs fw6 mb8" style="color:var(--or)">Рекомендации:</div>
       <div class="xs mu" style="line-height:1.8">
         ${idle>=3?'• Требуется встреча — обсудить причины простоя<br>':''}
@@ -859,6 +877,7 @@ function mgrDeals(u,m,deals,s,day){
       ${s.earnFixed?`+ Ценники (фикса): <b style="color:var(--ye)">${fmt(s.earnFixed)} ₽</b><br>`:''}
       <div class="dv"></div>
       <b style="color:var(--gr);font-size:16px">= ${fmt(s.totalZP)} ₽</b>
+      ${s.totalZPReal<s.totalZP?`<div style="color:var(--or);font-size:11px;margin-top:4px">⚠ По факту KPI ${fmtKpi(s.kpi)}: ${fmt(s.totalZPReal)} ₽ — применён минимальный порог 60%</div>`:''}
     </div>
   </div>
 </div>
@@ -1025,7 +1044,10 @@ function mgrForecast(u,m,s,day){
 <div class="g4 mb14">
   <div class="met"><div class="lb">Прогноз сделок</div><div class="vl" style="color:${s.fc.iron>=m.targets.iron?'var(--gr)':'var(--or)'}">${Math.round(s.fc.iron)}</div><div class="sb2">из ${m.targets.iron}</div></div>
   <div class="met"><div class="lb">Прогноз KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
-  <div class="met"><div class="lb">Прогноз ЗП</div><div class="vl" style="color:var(--gr)">${fmt(s.fc.zp)} ₽</div></div>
+  <div class="met"><div class="lb">Прогноз ЗП (мин 60%)</div>
+  <div class="vl" style="color:var(--gr)">${fmt(s.fc.zp)} ₽</div>
+  <div class="sb2" style="color:var(--mu)">По факт. KPI: ${fmt(s.fc.zpReal)} ₽</div>
+</div>
   <div class="met"><div class="lb">Нужно/день</div><div class="vl" style="color:${needPerDay>2?'var(--re)':needPerDay>1?'var(--or)':'var(--gr)'}">${needPerDay>0?needPerDay.toFixed(1):'✓'}</div></div>
 </div>
 
