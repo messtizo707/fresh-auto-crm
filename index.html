@@ -227,14 +227,16 @@ Object.entries(sc).forEach(([k,cfg])=>{
     if(cfg.fixedRate&&cfg.rate>0)earnFixed+=counts[k]*cfg.rate;
     else if(cfg.includeInEarn&&cfg.rate>0)earnBase+=counts[k]*cfg.rate;
   });
-  const totalZP=Math.round(earnBase*kpi+earnFixed);
+  const kpiForZP = Math.max(kpi, 0.60);         // не ниже 60%
+  const totalZP = Math.round(earnBase*kpiForZP+earnFixed);  // ЗП по факту (мин 60%)
+  const totalZPReal = Math.round(earnBase*kpi+earnFixed);   // ЗП по реальному KPI
   const days=dayNow||m.days;
   const coef=days>0?m.days/days:1;
   const fc={};
   Object.keys(counts).forEach(k=>fc[k]=counts[k]*coef);
   fc.zp=Math.round(earnBase*coef*kpi+earnFixed);
   fc.earnBase=Math.round(earnBase*coef);
-  return { counts, kpiIronCount, kpi, earnBase, earnFixed, totalZP, fc, schema: sc, targets: tg };
+  return { counts, kpiIronCount, kpi, earnBase, earnFixed, totalZP, totalZPReal, fc, schema: sc, targets: tg };
 }
 
 function getDeals(uid,mid){
@@ -319,7 +321,7 @@ function shell(nav,content){
   const u=S.user;
   return `<div class="shell">
 <div class="sb">
-  <div class="sb-logo"><div class="lg">FRESH AUTO</div><div class="slg">CRM · КРАСНОДАР</div></div>
+  <div class="sb-logo"><div class="lg">FRESH</div><div class="slg">CRM · КРАСНОДАР</div></div>
   <div class="nav">${nav}</div>
   <div class="sb-foot">
     <div class="flex ia g8 mb8">${avHtml(u.av,30)}<div><div class="sm fw6">${u.name}</div><div class="xs mu">${u.role==='admin'?'РОП/СМОП':'МОП'}</div></div></div>
@@ -529,7 +531,8 @@ function adminMgrDetail(uid){
   <div class="met"><div class="lb">Сделок (${m.name})</div><div class="vl">${s.kpiIronCount}/${m.targets.iron}</div></div>
   <div class="met"><div class="lb">KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
   <div class="met"><div class="lb">База заработка</div><div class="vl">${fmt(s.earnBase)} ₽</div></div>
-  <div class="met"><div class="lb">ЗП итого</div><div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div></div>
+  <div class="met"><div class="lb">ЗП к выплате (мин 60%)</div><div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div>
+<div class="sb2" style="color:var(--mu)">По факту KPI: ${fmt(s.totalZPReal)} ₽</div></div>
 </div>
 
 ${day?`<div class="al inf mb14">📅 День ${day}/${m.days} · Прогноз сделок: <b>${Math.round(s.fc.iron)}</b> · Прогноз ЗП: <b>${fmt(s.fc.zp)} ₽</b></div>`:''}
