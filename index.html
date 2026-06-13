@@ -506,6 +506,7 @@ function adminMgrDetail(uid){
   // Risk assessment
   const risks=[];
   const monthProgress = day ? day/m.days : 1; // сколько месяца прошло (0..1)
+  const needPerDay = day && m.days-day > 0 ? Math.max(0,(m.targets.iron-s.kpiIronCount)/(m.days-day)) : 0;
 const expectedIron = Math.round(m.targets.iron * monthProgress);
 const expectedCredit = Math.round((m.targets.credit||8) * monthProgress);
 const expectedExchange = Math.round((m.targets.exchange||7) * monthProgress);
