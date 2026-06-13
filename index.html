@@ -544,17 +544,26 @@ if(risks.length===0) risks.push({lvl:'ok', text:`Всё в норме — идё
   </div>
 </div>
 
-<div class="g4 mb14">
-  <div class="met"><div class="lb">Сделок (${m.name})</div><div class="vl">${s.kpiIronCount}/${m.targets.iron}</div></div>
-  <div class="met"><div class="lb">KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
-  <div class="met"><div class="lb">База заработка</div><div class="vl">${fmt(s.earnBase)} ₽</div></div>
-  <div class="met"><div class="lb">ЗП к выплате</div>
+<div class="flex g8 mb14" style="flex-wrap:wrap">
+  <div class="met" style="flex:1;min-width:130px"><div class="lb">Сделок (${m.name})</div><div class="vl">${s.kpiIronCount}/${m.targets.iron}</div></div>
+  <div class="met" style="flex:1;min-width:130px"><div class="lb">KPI</div><div class="vl" style="color:${kpiC(s.kpi)}">${fmtKpi(s.kpi)}</div></div>
+  <div class="met" style="flex:1;min-width:130px"><div class="lb">База заработка</div><div class="vl">${fmt(s.earnBase)} ₽</div></div>
+  <div class="met" style="flex:1;min-width:160px"><div class="lb">ЗП к выплате</div>
+    <div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div>
+    <div class="sb2">Факт KPI: <b style="color:${s.totalZPReal<s.totalZP?'var(--or)':'var(--gr)'}">${fmt(s.totalZPReal)} ₽</b></div>
+  </div>
+</div>
   <div class="vl" style="color:var(--gr)">${fmt(s.totalZP)} ₽</div>
   <div class="sb2" style="color:var(--mu)">Факт KPI: <b style="color:${s.totalZPReal<s.totalZP?'var(--or)':'var(--gr)'}">${fmt(s.totalZPReal)} ₽</b></div>
 </div>
 
 
-${day?`<div class="al inf mb14">📅 День ${day}/${m.days} · Прогноз сделок: <b>${Math.round(s.fc.iron)}</b> · Прогноз ЗП: <b>${fmt(s.fc.zp)} ₽</b></div>`:''}
+${day?`<div class="mb14" style="display:flex;gap:10px;flex-wrap:wrap">
+  <div class="met" style="flex:1;min-width:120px"><div class="lb">📅 День месяца</div><div class="vl" style="font-size:18px">${day}/${m.days}</div></div>
+  <div class="met" style="flex:1;min-width:120px"><div class="lb">Прогноз сделок</div><div class="vl" style="font-size:18px;color:var(--ac)">${Math.round(s.fc.iron)}/${m.targets.iron}</div></div>
+  <div class="met" style="flex:1;min-width:140px"><div class="lb">Прогноз ЗП (мин 60%)</div><div class="vl" style="font-size:18px;color:var(--gr)">${fmt(s.fc.zp)} ₽</div><div class="sb2">По факт. KPI: ${fmt(s.fc.zpReal)} ₽</div></div>
+  <div class="met" style="flex:1;min-width:120px"><div class="lb">Нужно сделок/день</div><div class="vl" style="font-size:18px;color:${needPerDay>2?'var(--re)':needPerDay>1?'var(--or)':'var(--gr)'}">${Math.max(0,(m.targets.iron-s.kpiIronCount)/Math.max(m.days-day,1)).toFixed(1)}</div></div>
+</div>`:''}
 
 <div class="g2 mb14">
   <div class="card">
